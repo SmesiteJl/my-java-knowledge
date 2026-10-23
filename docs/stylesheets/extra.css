@@ -1,0 +1,18 @@
+/* Footnotes hold full explanations, so the block gets an h2-like title and body-colored text. */
+.md-typeset .footnote {
+  color: var(--md-typeset-color);
+}
+
+.md-typeset .footnote > hr {
+  display: none;
+}
+
+.md-typeset .footnote::before {
+  content: "Сноски";
+  display: block;
+  margin: 1.6em 0 0.64em;
+  font-size: 1.7578em; /* the h2 size, counted from the smaller footnote font */
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: -0.025em;
+}
