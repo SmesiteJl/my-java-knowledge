@@ -2,7 +2,8 @@
 docs_dir = "docs"
 nav = [
   { "Главная" = "index.md" },
-  { "Java Core" = [{ "ООП" = [{ "Контракт equals и hashCode" = "03 Java Core/ООП/Контракт equals и hashCode.md" }] }] },
+  { "Фундамент Computer Science" = [{ "Языки программирования и трансляция" = [{ "Теорема Бёма–Якопини" = "01 Фундамент Computer Science/Языки программирования и трансляция/Теорема Бёма–Якопини.md" }] }] },
+  { "Java Core" = [{ "ООП" = [{ "Класс Object и его методы" = "03 Java Core/ООП/Класс Object и его методы.md" }, { "Контракт equals и hashCode" = "03 Java Core/ООП/Контракт equals и hashCode.md" }] }] },
   { "Ресурсы" = "Ресурсы.md" },
 ]
 site_name = "My Java Knowledge"

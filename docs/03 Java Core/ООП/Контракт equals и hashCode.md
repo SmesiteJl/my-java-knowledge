@@ -1,9 +1,9 @@
 # Контракт equals и hashCode
 
-## `==` и `equals()` по умолчанию
+## Сравнение по ссылке: `equals()` по умолчанию
 
 * `==` — тупое сравнение по ссылке: разные ссылки — разные объекты, даже если все поля одинаковые.
-* `equals()` по умолчанию — тоже тупое сравнение по ссылке. Вот он в `Object`:
+* `equals()` по умолчанию — тоже тупое сравнение по ссылке. Вот он в [`Object`](Класс%20Object%20и%20его%20методы.md):
   ```java
   public boolean equals(Object obj) {
       return (this == obj);
@@ -71,6 +71,16 @@ public boolean equals(Object obj) {
     return salary == that.salary && Objects.equals(position, that.position);
 }
 ```
+
+`Objects.equals()` из последней строки внутри очень простой — вот он в [`java.util.Objects`](https://github.com/openjdk/jdk/blob/jdk-25-ga/src/java.base/share/classes/java/util/Objects.java#L61):
+
+```java
+public static boolean equals(Object a, Object b) {
+    return (a == b) || (a != null && a.equals(b));
+}
+```
+
+Сначала дешёвое `==` — оно же ловит случай, когда оба `null`, — и только потом `equals()`, причём у заведомо не-`null` объекта. Поэтому для полей-объектов удобнее звать его, а не `position.equals(that.position)`: тот упадёт с `NullPointerException`, если `position` — `null`.
 
 ### Наследование: вызываем `super.equals()`
 
@@ -169,7 +179,7 @@ m.equals(p); // false: p не instanceof MiddleProgrammer
 > - **Равные объекты дают равные хеш-коды.** Если два объекта равны по методу `equals`, то `hashCode` для каждого из них должен вернуть одно и то же целое число.
 > - **Неравные объекты могут иметь одинаковый хеш-код.** Если два объекта не равны по методу `equals`, их хеш-коды не обязаны различаться. Однако программисту стоит помнить, что разные хеш-коды для неравных объектов могут повысить производительность хеш-таблиц.
 
-Если кратко, то обещается, что у одинаковых объектов **одинаковый** `hashCode`, а у разных **не обязательно разный**: `hashCode()` возвращает `int`, а у `int` всего 4 294 967 296 возможных значений. А значит, *коллизий* не избежать — одинакового значения `hashCode` у разных объектов.
+Если кратко, то обещается, что у одинаковых объектов **одинаковый** `hashCode`, а у разных **не обязательно разный**: `hashCode()` возвращает `int`, а у `int` всего `4 294 967 296` возможных значений. А значит, *коллизий* не избежать — одинакового значения `hashCode` у разных объектов.
 
 ```java
 @IntrinsicCandidate
@@ -177,6 +187,21 @@ public native int hashCode();
 ```
 
 Вот так выглядит оригинальный нативный `hashCode()` в `Object`. С помощью алгоритма Марсальи — *xor-shift*, встроенной в JVM хеш-функции[^xorshift], — он выдаёт результат: хеш нашего объекта.
+
+### `native`: тела на Java нет
+
+Вопрос, который у меня возник:
+
+> *не понимаю, почему не могу провалиться в метод `hashCode()`*
+
+Провалиться не получится: у этого метода нет Java-кода. `native` значит, что тела на Java у метода нет, а реализован он на C++ внутри самой JVM (HotSpot), — IDEA просто нечего открыть. А Cmd+клик (Ctrl+клик на Windows и Linux) по имени там, где метод объявлен, — это действие *Go to Declaration or Usages*: на объявлении оно ищет уже не определение, а использования. Отсюда и подсказка «No usages found».
+
+Аннотация `@IntrinsicCandidate` — ещё один слой. Она говорит, что HotSpot может заменить метод *интринсиком* — заранее написанным машинным кодом[^intrinsic]. С `hashCode()` JIT-компилятор так и делает: читает готовый хеш прямо из заголовка объекта и идёт в нативную функцию, только если хеша там ещё нет. Так что даже C++-реализация описывает не всё, что происходит на самом деле.
+
+Где искать настоящую реализацию — в исходниках OpenJDK:
+
+* [`jvm.cpp`, функция `JVM_IHashCode()`](https://github.com/openjdk/jdk/blob/jdk-25-ga/src/hotspot/share/prims/jvm.cpp#L622) — точка входа из `Object.hashCode()`;
+* [`synchronizer.cpp`, `ObjectSynchronizer::FastHashCode()`](https://github.com/openjdk/jdk/blob/jdk-25-ga/src/hotspot/share/runtime/synchronizer.cpp#L989) и `get_next_hash()` рядом с ней — здесь хеш генерируется и записывается в заголовок объекта. Как именно — ниже, в разделе про identity hashCode.
 
 ### Реализация через `Objects.hash()`
 
@@ -334,6 +359,8 @@ public int hashCode() {
 
 С точки зрения контракта всё законно: равные объекты дают равные хеши. Но все элементы падают в один бакет, и `HashMap` превращается в список: каждый `get()` и `put()` перебирает всё подряд через `equals()` — `O(n)` вместо `O(1)`. С Java 8 бакет, в котором набралось больше 8 элементов (при размере таблицы от 64), превращается в красно-чёрное дерево, и становится `O(log n)`. Но дерево упорядочивает ключи через `compareTo()`, а если ключи не `Comparable`, порядок у него почти случайный, и толку немного. Так что константа — это рабочий, но очень медленный `hashCode()`.
 
+Контракт — это минимум. Хороший `hashCode()` ещё и раскидывает разные объекты по разным числам как можно равномернее — ровно про это третий пункт документации: разные хеш-коды для неравных объектов могут повысить производительность хеш-таблиц.
+
 ### Изменили поле ключа после `put()`
 
 ```java
@@ -447,11 +474,20 @@ new TreeSet<>(List.of(x, y)).size();   // 1
     * [George Marsaglia, «Xorshift RNGs», Journal of Statistical Software, 2003](https://doi.org/10.18637/jss.v008.i14) — оригинальная статья
     * [Исходник HotSpot: функция `get_next_hash()` в `synchronizer.cpp`](https://github.com/openjdk/jdk/blob/master/src/hotspot/share/runtime/synchronizer.cpp) — все режимы генерации `hashCode`, режим `5` и есть xor-shift
 
+[^intrinsic]:
+    **Что такое интринсик.** Javadoc аннотации [`@IntrinsicCandidate`](https://github.com/openjdk/jdk/blob/jdk-25-ga/src/java.base/share/classes/jdk/internal/vm/annotation/IntrinsicCandidate.java) объясняет так:
+
+    > Аннотация `@IntrinsicCandidate` относится только к виртуальной машине HotSpot. Она означает, что HotSpot может (но не обязан) интринсифицировать помеченный метод. Метод интринсифицирован, если HotSpot заменяет его написанным вручную ассемблерным кодом и/или написанным вручную промежуточным представлением компилятора — интринсиком компилятора, — чтобы повысить производительность.
+
+    Аннотация внутренняя, для библиотек самого JDK: в своём коде её не ставят. Интринсик для `hashCode()` в JIT-компиляторе C2 — функция `LibraryCallKit::inline_native_hashcode()` в [`library_call.cpp`](https://github.com/openjdk/jdk/blob/jdk-25-ga/src/hotspot/share/opto/library_call.cpp#L4689): она достаёт хеш из заголовка объекта, а если его там нет — вызывает обычный `hashCode()`.
+
 ## Ссылки
 
 * [Java Kabala, «Java с нуля. equals и hashCode»](https://www.youtube.com/watch?v=N2z_1EGSN4U) — получасовой урок: свойства контракта, переопределение и наследование на простых примерах
 * [Документация `java.lang.Object` (Java 25)](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html) — оригинал контрактов `equals` и `hashCode`
 * [hello-algo, глава 6.3 «Алгоритмы хеширования»](https://www.hello-algo.com/ru/chapter_hashing/hash_algorithm/) — как устроены хеш-функции и зачем в них простые числа
 * [Исходник HotSpot: `synchronizer.cpp`](https://github.com/openjdk/jdk/blob/master/src/hotspot/share/runtime/synchronizer.cpp) — функция `get_next_hash()`, все режимы генерации identity hashCode
+* [Исходник HotSpot: `jvm.cpp`, `JVM_IHashCode()`](https://github.com/openjdk/jdk/blob/jdk-25-ga/src/hotspot/share/prims/jvm.cpp#L622) — куда на самом деле ведёт нативный `Object.hashCode()`
+* [Исходник `java.util.Objects` (JDK 25)](https://github.com/openjdk/jdk/blob/jdk-25-ga/src/java.base/share/classes/java/util/Objects.java) — `Objects.equals()` и `Objects.hash()` целиком
 * [Vlad Mihalcea: как правильно писать `equals()` и `hashCode()` для сущностей JPA и Hibernate](https://vladmihalcea.com/the-best-way-to-implement-equals-hashcode-and-tostring-with-jpa-and-hibernate/)
 * [Джошуа Блох, «Effective Java», 3-е издание](https://www.oreilly.com/library/view/effective-java-3rd/9780134686097/) — статьи 10 и 11 про `equals` и `hashCode` (на русском — «Java. Эффективное программирование»)
