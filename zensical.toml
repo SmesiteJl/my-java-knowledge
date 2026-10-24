@@ -12,7 +12,7 @@ site_author = "Никита Москалёв"
 site_url = "https://smesitejl.github.io/my-java-knowledge/"
 repo_url = "https://github.com/SmesiteJl/my-java-knowledge"
 repo_name = "SmesiteJl/my-java-knowledge"
-copyright = "© 2026 Никита Москалёв · MIT"
+copyright = "© 2026 Никита Москалёв · <a href=\"https://creativecommons.org/licenses/by-nc/4.0/deed.ru\">CC BY-NC 4.0</a>"
 extra_css = ["stylesheets/extra.css"]
 
 [project.theme]
