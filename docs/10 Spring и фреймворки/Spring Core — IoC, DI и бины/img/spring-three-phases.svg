@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 570 408" role="img" aria-labelledby="title desc">
+  <title id="title">Три фазы инициализации Spring-бина</title>
+  <desc id="desc">Дюк обозначает обычный конструктор Java. Spring внедряет зависимости. Муравей обозначает BeanPostProcessor, который вызывает PostConstruct. Spring может обернуть объект в прокси. На ContextRefreshedEvent слушатель, обозначенный Чебурашкой, вызывает метод на бине из контекста.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0 0 10 5 0 10Z" fill="#45616c"/>
+    </marker>
+  </defs>
+  <g font-family="system-ui, sans-serif" fill="#18313e">
+    <rect x="1" y="1" width="568" height="406" rx="20" fill="#fbfaf5" stroke="#c3cbc8"/>
+    <g fill="none" stroke="#45616c" stroke-width="2.5" marker-end="url(#arrow)">
+      <path d="M62 113v45"/>
+      <path d="M62 246v62"/>
+    </g>
+    <rect x="20" y="20" width="530" height="91" rx="14" fill="#e6eef8" stroke="#647c9d"/>
+    <rect x="20" y="160" width="530" height="84" rx="14" fill="#ddf3e9" stroke="#527e71"/>
+    <rect x="20" y="310" width="530" height="78" rx="14" fill="#fff0c4" stroke="#947232"/>
+    <g transform="translate(62 63)" stroke="#273743" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M-12 9-32-2m46 12 18-15M-9 20l-5 12m24-13 8 13" fill="none"/>
+      <path d="M-15 20c3-10-2-21 17-44 5 12 16 21 20 34 4 13-22 17-37 10Z" fill="#f7fafb"/>
+      <path d="M2-24c6 12 18 22 19 31-7-5-13-10-25-9Z" fill="#273743"/>
+      <circle cx="6" cy="4" r="9" fill="#e14a4f"/>
+    </g>
+    <g transform="translate(62 204)" stroke="#4f433d" stroke-width="2.2" stroke-linecap="round">
+      <path d="M4-18l1-12m8 13 9-10M-10 1l-19-5m19 13-23 8m28 1-16 8m22-17 18 9m-9-17 16-4" fill="none"/>
+      <ellipse cx="-13" cy="11" rx="14" ry="12" fill="#a17362"/>
+      <ellipse cx="1" cy="3" rx="10" ry="9" fill="#b98671"/>
+      <circle cx="8" cy="-9" r="12" fill="#d4a18a"/>
+      <path d="M8-11h1m8-1h1m-9 7q4 3 8-1" fill="none"/>
+    </g>
+    <g transform="translate(62 349)" stroke="#634335" stroke-width="1.8">
+      <ellipse cx="-21" cy="-9" rx="15" ry="18" fill="#95664c"/>
+      <ellipse cx="21" cy="-9" rx="15" ry="18" fill="#95664c"/>
+      <ellipse cx="0" cy="-7" rx="21" ry="20" fill="#8a593f"/>
+      <ellipse cx="0" cy="-4" rx="15" ry="14" fill="#f1d0a6"/>
+      <path d="M-6-7h1m11 0h1m-12 7q5 4 10 0" fill="none" stroke-linecap="round"/>
+      <path d="M-2 22q4-6 9-8" fill="none" stroke="#527e71"/>
+      <path d="M7 14q-10-3-5-8 4-4 5 4 4-8 8-3 4 5-6 7 6 6 0 7-6 1-2-7Z" fill="#fff9e6"/>
+    </g>
+    <g font-size="19" font-weight="700">
+      <text x="119" y="56">1. Конструктор Java</text>
+      <text x="119" y="193">2. Настройка бина</text>
+      <text x="119" y="342">3. Вызов через прокси</text>
+    </g>
+    <g font-size="16">
+      <text x="119" y="82">Дюк: объект создан</text>
+      <text x="85" y="140">Spring внедряет зависимости и свойства</text>
+      <text x="119" y="218">Муравей: BeanPostProcessor вызывает @PostConstruct</text>
+      <text x="85" y="270">Spring оборачивает бин, если нужен прокси</text>
+      <text x="85" y="293">Контекст публикует ContextRefreshedEvent</text>
+      <text x="119" y="366">Чебурашка: слушатель вызывает метод бина</text>
+    </g>
+  </g>
+</svg>

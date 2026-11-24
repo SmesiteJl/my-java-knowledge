@@ -4,6 +4,7 @@ nav = [
   { "Главная" = "index.md" },
   { "Фундамент Computer Science" = [{ "Языки программирования и трансляция" = [{ "Теорема Бёма–Якопини" = "01 Фундамент Computer Science/Языки программирования и трансляция/Теорема Бёма–Якопини.md" }] }] },
   { "Java Core" = [{ "ООП" = [{ "Класс Object и его методы" = "03 Java Core/ООП/Класс Object и его методы.md" }, { "Контракт equals и hashCode" = "03 Java Core/ООП/Контракт equals и hashCode.md" }] }] },
+  { "Spring и фреймворки" = [{ "Spring Core — IoC, DI и бины" = [{ "BeanPostProcessor: свои аннотации и обработка бинов" = "10 Spring и фреймворки/Spring Core — IoC, DI и бины/BeanPostProcessor — свои аннотации и обработка бинов.md" }, { "XML-конфигурация, BeanDefinition и ClassPathXmlApplicationContext" = "10 Spring и фреймворки/Spring Core — IoC, DI и бины/XML-конфигурация, BeanDefinition и ClassPathXmlApplicationContext.md" }, { "Жизненный цикл бина и scope" = "10 Spring и фреймворки/Spring Core — IoC, DI и бины/Жизненный цикл бина и scope.md" }, { "Трёхфазный конструктор: ContextRefreshedEvent и @PostInitialize" = "10 Spring и фреймворки/Spring Core — IoC, DI и бины/Трёхфазный конструктор — ContextRefreshedEvent и @PostInitialize.md" }] }] },
   { "Ресурсы" = "Ресурсы.md" },
 ]
 site_name = "My Java Knowledge"

@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 455" role="img" aria-labelledby="title desc">
+  <title id="title">Как Spring превращает XML в бины</title>
+  <desc id="desc">Стрекоза XmlBeanDefinitionReader читает context.xml и регистрирует определения по имени в BeanDefinitionRegistry. Пчела BeanFactory берёт определения и классы, создаёт и настраивает бины. Синглтон хранится в кэше и выдаётся повторно. Каждый новый запрос прототипа получает отдельный экземпляр, который фабрика не кэширует.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 10 5 0 10Z" fill="#345265"/>
+    </marker>
+    <g id="runner" stroke="#49283c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="m-23 1-8 4-8-2m53-8 7 2 6-8M-10 16l-10 11-12-2m36-4 9 8 10-4" fill="none"/>
+      <path d="M-21 2c-2-11 11-20 24-19 13 1 17 11 11 17-5 4-12 0-14 6-2 4 4 8-2 13-8 6-18-5-19-17Z" fill="#b65c85"/>
+      <path d="M0-8h1m7-1h1m-8 6c2 2 4 2 6 0" fill="none"/>
+      <path d="M-47-6h11m-16 14h8" stroke="#755a6d" stroke-width="2"/>
+    </g>
+  </defs>
+  <rect x="1" y="1" width="918" height="453" rx="24" fill="#fbfaf5" stroke="#c3cbc8"/>
+  <g font-family="system-ui, sans-serif" fill="#18313e">
+    <text x="30" y="40" font-size="24" font-weight="700">Как Spring превращает XML в бины</text>
+    <g fill="none" stroke="#345265" stroke-width="2.5" marker-end="url(#arrow)">
+      <path d="M176 126h52"/>
+      <path d="M536 126h59"/>
+      <path d="M735 195v52H473"/>
+      <path d="M181 327h53"/>
+      <path d="M472 313h111"/>
+      <path d="M506 313v91h77"/>
+    </g>
+    <rect x="27" y="88" width="149" height="76" rx="12" fill="#fff1cb" stroke="#947232"/>
+    <text x="101" y="120" text-anchor="middle" font-size="17" font-weight="700">context.xml</text>
+    <text x="101" y="142" text-anchor="middle" font-size="14">декларации</text>
+    <rect x="229" y="67" width="307" height="119" rx="12" fill="#ddf3e9" stroke="#527e71"/>
+    <g transform="translate(310 103)" stroke="#245d59" stroke-width="2">
+      <path d="M-10 2C-46-40-62-15-13 7C-61 14-53 33-9 13M-4 1C24-39 52-24 4 6C43 2 47 25 0 13" fill="#a9dcd3"/>
+      <path d="M-9 4c16-7 19 18-7 30 8-10 1-22 7-30Z" fill="#52a18d"/>
+      <path d="m-12 17 9 2m-9 4 5 2"/>
+      <ellipse cx="-3" cy="1" rx="9" ry="7" fill="#e4f69b"/>
+      <circle cx="1" cy="-1" r="2" fill="#245d59"/>
+    </g>
+    <text x="382" y="151" text-anchor="middle" font-size="17" font-weight="700">XmlBeanDefinitionReader</text>
+    <text x="382" y="173" text-anchor="middle" font-size="14">читает XML и регистрирует описания</text>
+    <rect x="596" y="67" width="298" height="128" rx="12" fill="#e6eef8" stroke="#647c9d"/>
+    <text x="745" y="103" text-anchor="middle" font-size="17" font-weight="700">BeanDefinitionRegistry</text>
+    <text x="745" y="133" text-anchor="middle" font-size="16">имя → BeanDefinition</text>
+    <text x="745" y="160" text-anchor="middle" font-size="14">класс, свойства, scope и колбэки</text>
+    <text x="604" y="236" text-anchor="middle" font-size="14">рецепт создания</text>
+    <rect x="27" y="292" width="154" height="70" rx="12" fill="#f0ece9" stroke="#817266"/>
+    <text x="104" y="321" text-anchor="middle" font-size="17" font-weight="700">Java-классы</text>
+    <text x="104" y="344" text-anchor="middle" font-size="14">код объектов</text>
+    <rect x="235" y="227" width="237" height="153" rx="12" fill="#fff0c4" stroke="#947232"/>
+    <g transform="translate(351 273)" stroke="#463426" stroke-width="2.3" stroke-linecap="round">
+      <path d="M-2-5c-23-16-16-41-2-24 5 5 5 15 5 23 8-11 19-23 26-16C37-12 19-5 7 1" fill="#cce8f4"/>
+      <path d="m-29-4-6-4m4 13h-9m67 0 7 3" fill="none"/>
+      <ellipse cx="2" cy="6" rx="26" ry="15" fill="#f5be47"/>
+      <path d="M-13-6Q-2 5-11 19M1-9Q13 4 4 21" fill="none" stroke-width="7"/>
+      <circle cx="22" cy="5" r="11" fill="#f5be47"/>
+      <path d="m22-6-1-5 3-4m2 21h1m-2 3c2 2 4 2 6 0" fill="none"/>
+    </g>
+    <text x="354" y="329" text-anchor="middle" font-size="19" font-weight="700">BeanFactory</text>
+    <text x="354" y="353" text-anchor="middle" font-size="14">создаёт и настраивает</text>
+    <rect x="584" y="276" width="310" height="75" rx="12" fill="#e1f1e6" stroke="#527b62"/>
+    <text x="600" y="307" font-size="17" font-weight="700">Singleton</text>
+    <text x="600" y="331" font-size="14">кэш → тот же экземпляр</text>
+    <use href="#runner" transform="translate(852 313) scale(.75)"/>
+    <rect x="584" y="367" width="310" height="75" rx="12" fill="#f7e5ec" stroke="#98657e"/>
+    <text x="600" y="398" font-size="17" font-weight="700">Prototype</text>
+    <text x="600" y="422" font-size="14">новый на запрос, без кэша</text>
+    <use href="#runner" transform="translate(803 410) scale(.65)"/>
+    <use href="#runner" transform="translate(856 396) scale(.8)"/>
+  </g>
+</svg>
