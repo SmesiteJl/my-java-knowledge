@@ -2,7 +2,7 @@
 
 ## Объявляем бин в XML
 
-В докладе [«Spring-потрошитель»](https://habr.com/ru/companies/jugru/articles/893638/) первый бин задаётся в XML. В Javadoc дата 26 ноября 2003 года стоит у [`XmlBeanDefinitionReader`](https://docs.spring.io/spring-framework/docs/6.2.11/javadoc-api/org/springframework/beans/factory/xml/XmlBeanDefinitionReader.html), конкретного читателя XML. `BeanDefinitionReader` — интерфейс: из его названия не следует, что источник обязательно XML. И XML, и аннотации по-прежнему можно использовать как источники конфигурации.
+В докладе [«Spring-потрошитель»](https://habr.com/ru/companies/jugru/articles/893638/) первый бин задаётся в XML. Кстати, дата 26 ноября 2003 года в Javadoc стоит у [`XmlBeanDefinitionReader`](https://docs.spring.io/spring-framework/docs/6.2.11/javadoc-api/org/springframework/beans/factory/xml/XmlBeanDefinitionReader.html) — ридера именно для XML. У самого интерфейса `BeanDefinitionReader` такой привязки нет. А описывать бины и сейчас можно и в XML, и аннотациями.
 
 Вот XML из [примера доклада](https://www.youtube.com/watch?v=BmBr5diz8WA&t=241s): закрываем `<property>`, дописываем адрес схемы, а неиспользуемый `xmlns:context` убираем. Файл — `src/main/resources/context.xml`.
 
@@ -34,9 +34,9 @@
 
 Если хотим сами указать ридеру путь, вызываем [`loadBeanDefinitions(Resource)`](https://docs.spring.io/spring-framework/docs/6.2.11/javadoc-api/org/springframework/beans/factory/xml/XmlBeanDefinitionReader.html#loadBeanDefinitions(org.springframework.core.io.Resource)). Передаём `ClassPathResource` — файл из classpath. После загрузки можно отдельно посмотреть на рецепт и только потом запросить экземпляр.
 
-Обычно ридера руками мы не создаём. Передаём путь в конструктор `ClassPathXmlApplicationContext`: он сам вызывает [`refresh()`](https://github.com/spring-projects/spring-framework/blob/v6.2.11/spring-context/src/main/java/org/springframework/context/support/ClassPathXmlApplicationContext.java#L138-L145), а в процессе обновления [`AbstractXmlApplicationContext` создаёт ридер и загружает конфигурацию](https://github.com/spring-projects/spring-framework/blob/v6.2.11/spring-context/src/main/java/org/springframework/context/support/AbstractXmlApplicationContext.java#L82-L96). То есть путь всё равно задаём мы, просто не носим его до ридера сами.
+Обычно мы ридера сами не создаём. Передаём путь в конструктор `ClassPathXmlApplicationContext`: он вызывает [`refresh()`](https://github.com/spring-projects/spring-framework/blob/v6.2.11/spring-context/src/main/java/org/springframework/context/support/ClassPathXmlApplicationContext.java#L138-L145), а при обновлении [`AbstractXmlApplicationContext` создаёт ридер и загружает XML](https://github.com/spring-projects/spring-framework/blob/v6.2.11/spring-context/src/main/java/org/springframework/context/support/AbstractXmlApplicationContext.java#L82-L96).
 
-Дальше — учебный Java-код для XML выше. Нужны Java 21 и зависимость `org.springframework:spring-context:6.2.11`. В Gradle-проекте с плагином `application` и `mavenCentral()` добавьте `implementation("org.springframework:spring-context:6.2.11")` и укажите `application { mainClass.set("Main") }`. Запуск — задачей `run`.
+А теперь загрузим один и тот же XML обоими способами. Берём Java 21. В Gradle с плагином `application` и репозиторием `mavenCentral()` добавляем `implementation("org.springframework:spring-context:6.2.11")` и указываем `application { mainClass.set("Main") }`. Запускаем задачу `run`.
 
 Файл `src/main/java/quoters/TerminatorQuoter.java`:
 
@@ -56,15 +56,9 @@ public class TerminatorQuoter {
 }
 ```
 
-Файл `src/main/java/Main.java`:
+Файл `src/main/java/Main.java`. Перед запуском добавляем пропущенные импорты через IDE: четыре класса Spring и наш `TerminatorQuoter` из пакета `quoters`.
 
 ```java
-import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.core.io.ClassPathResource;
-import quoters.TerminatorQuoter;
-
 public class Main {
     public static void main(String[] args) {
         var factory = new DefaultListableBeanFactory();
@@ -92,6 +86,8 @@ quoters.TerminatorQuoter
 I'll be back
 I'll be back
 ```
+
+Первая строка — мы прочитали имя класса из рецепта, даже не вызывая `getBean()`. А две реплики уже печатают сами бины: один мы запросили у фабрики, второй — у контекста.
 
 > [!QUESTION]- Проверь себя
 > - Что `XmlBeanDefinitionReader` читает, куда он передаёт результат и что лежит в `BeanDefinition`?

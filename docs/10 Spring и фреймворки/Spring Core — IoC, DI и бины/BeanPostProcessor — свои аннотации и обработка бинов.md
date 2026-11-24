@@ -2,9 +2,9 @@
 
 ## Случайное число появляется после конструктора
 
-У кворера из [доклада Евгения Борисова «Spring-потрошитель» (10:06)](https://www.youtube.com/watch?v=BmBr5diz8WA&t=606s) есть поле `repeat`: сколько раз печатать цитату. Мы пишем над ним `@InjectRandomInt(min = 2, max = 7)`. Вызываем метод — и без обработчика не печатается ни одной цитаты. Аннотация — просто метаданные, а поле `int` по-прежнему равно `0`.
+Ставим `@InjectRandomInt(min = 2, max = 7)` над полем `repeat` у кворера из [«Spring-потрошителя» Евгения Борисова (10:06)](https://www.youtube.com/watch?v=BmBr5diz8WA&t=606s). Поле говорит, сколько раз печатать цитату. Если создать объект через `new` и сразу вызвать `sayQuote()`, не напечатается ничего: аннотация сама ничего не записывает, и в `repeat` всё ещё `0`.
 
-Можно было бы посчитать число в конструкторе. Но тогда сам кворер отвечал бы и за выбор значения, и за то, что с ним делать. В примере эти задачи разделены: сначала Java создаёт объект, затем Spring заполняет его и вызывает `init()`. Вот что здесь называется [*двухфазным конструктором* (18:55)](https://www.youtube.com/watch?v=BmBr5diz8WA&t=1135s): обычный конструктор и отдельная инициализация после настройки, а не два конструктора Java. Если значение необходимо для инварианта уже при создании объекта, лучше передать его конструктору.
+Где тогда записать число? Можно в конструкторе, но тогда кворер и выбирает число, и печатает цитату. В примере Java создаёт объект, Spring заполняет его, а потом мы проверяем значение в `init()`. Вот что здесь называют [*двухфазным конструктором* (18:55)](https://www.youtube.com/watch?v=BmBr5diz8WA&t=1135s): один конструктор Java и отдельная инициализация после настройки. Если без значения нельзя создать корректный объект, лучше передать его конструктору.
 
 ### Между созданием и `init()`
 
@@ -14,36 +14,11 @@
 
 Цепочка похожа на *Chain of Responsibility*: каждый обработчик получает результат предыдущего. В обеих фазах можно вернуть тот же бин или обёртку; если вернуть `null`, Spring [остановит текущую цепочку и оставит последний ненулевой результат](https://github.com/spring-projects/spring-framework/blob/v6.2.11/spring-beans/src/main/java/org/springframework/beans/factory/support/AbstractAutowireCapableBeanFactory.java#L423-L451). Поэтому «аннотации нет, ничего не делаем» — это `return bean`, а не `return null`. Для найденных автоматически BPP порядок задают `PriorityOrdered` и `Ordered`; для добавленных через `addBeanPostProcessor()` работает порядок регистрации.
 
-### Объявляем аннотацию и регистрируем обработчик
+### Объявляем аннотацию и пишем обработчик
 
-В [текстовой версии доклада JUG Ru](https://habr.com/ru/companies/jugru/articles/893638/) обработчик объявлен в XML как `<bean class="quoters.InjectRandomIntAnnotationBeanPostProcessor"/>`. Явный `id` не нужен: контекст обнаруживает обработчики по типу, а для такой XML-записи Spring сгенерирует имя. Но просто написать класс обработчика и оставить его вне контекста недостаточно. Отдельно в XML нужно включить обработку стандартных аннотаций, например через `<context:annotation-config/>`; сам по себе XML её не включает.
-
-Ниже **учебная адаптация**, не код из доклада. Соберём три Java-блока подряд в один файл `Demo.java`. Первый блок открывает класс `Demo`. Аннотация остаётся доступной в рантайме благодаря `@Retention(RetentionPolicy.RUNTIME)`, а `@Target(ElementType.FIELD)` ограничивает её полями.
+В нашем учебном примере `@Retention(RetentionPolicy.RUNTIME)` оставляет аннотацию доступной в рантайме, а `@Target(ElementType.FIELD)` разрешает ставить её только на поля. В обработчике ищем эти поля и записываем число до `init()`.
 
 ```java
-import jakarta.annotation.PostConstruct;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-import java.lang.management.ManagementFactory;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Proxy;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
-import javax.management.ObjectName;
-import javax.management.StandardMBean;
-import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.PriorityOrdered;
-import org.springframework.util.ReflectionUtils;
-
 public class Demo {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.FIELD)
@@ -105,7 +80,7 @@ public class Demo {
 
 Переключатель — `volatile`, потому что JMX меняет его из другого потока: [запись видна при последующем чтении](https://docs.oracle.com/javase/specs/jls/se25/html/jls-17.html#jls-17.4.5). Проверяем флаг один раз в начале вызова, поэтому смена значения не отменяет уже начавшийся замер. Это не [Spring profiles и `@Profile`](../Spring%20Boot/Профили%20и%20@Profile.md): бин уже создан, прокси остаётся тем же, меняется только его поведение на следующих вызовах.
 
-Второй блок — продолжение `Demo.java`. Обработчик рассчитан на обычный singleton из примера с одним напрямую объявленным публичным интерфейсом. Его задача — показать, где проходит граница между before и after, а не заменить Spring AOP.
+Теперь добавим обработчик профилирования. Нам достаточно одного singleton-бина с напрямую объявленным публичным интерфейсом `Quoter`: на нём видно, что делаем в before, а что — в after. Заменять этим кодом Spring AOP не будем.
 
 ```java
     @Retention(RetentionPolicy.RUNTIME)
@@ -175,7 +150,9 @@ public class Demo {
 
 ### Собираем пример и щёлкаем флаг
 
-Последний блок закрывает `Demo.java`. Оба BPP объявлены через `static @Bean` с типом обработчика в сигнатуре: контекст распознаёт их заранее и не поднимает конфигурацию раньше времени ради создания обработчиков.
+Осталось зарегистрировать оба обработчика. В [текстовой версии доклада JUG Ru](https://habr.com/ru/companies/jugru/articles/893638/) для этого используют XML: `<bean class="quoters.InjectRandomIntAnnotationBeanPostProcessor"/>`. Явный `id` не нужен: Spring сам даст бину имя, а обработчик найдёт по типу. Обработку стандартных аннотаций в XML включаем отдельно, например через `<context:annotation-config/>`.
+
+У нас оба обработчика объявлены через `static @Bean`, а в сигнатурах стоят их конкретные типы. Так Spring распознаёт обработчики заранее и может создать их, не создавая раньше времени экземпляр конфигурации.
 
 ```java
     public interface Quoter {
@@ -247,7 +224,9 @@ public class Demo {
 }
 ```
 
-Для запуска нужны Maven и JDK 25. Рядом с `Demo.java` сохраним `pom.xml`:
+Чтобы запустить пример, складываем три Java-блока подряд в `Demo.java` и добавляем пропущенные импорты. Для Spring 6.2 здесь берём `@PostConstruct` из `jakarta.annotation`, не из `javax.annotation`. А классы JMX `ObjectName` и `StandardMBean` по-прежнему лежат в `javax.management` в JDK.
+
+Нужны Maven и JDK 25. Рядом с `Demo.java` сохраняем `pom.xml`:
 
 ```xml
 <project xmlns="http://maven.apache.org/POM/4.0.0">
@@ -281,7 +260,9 @@ java -cp 'target/dependency/*' Demo.java
 
 ## Что имеем по итогу
 
-До `init()` настраиваем сам объект; после `init()` можем подставить обёртку для будущих вызовов. Если нужно запустить логику уже *через* прокси после подготовки контекста, одного `@PostConstruct` недостаточно — этот случай отдельно разбирается в [статье про ContextRefreshedEvent и @PostInitialize](Трёхфазный%20конструктор%20—%20ContextRefreshedEvent%20и%20@PostInitialize.md).
+В конструкторе у нас ещё `0`, в `init()` уже `2–6`, а замер появляется только при вызове через прокси с включённым флагом. **Отсюда правило:** если нужно подготовить сам бин к `init()`, делаем это в before и следим за порядком обработчиков. Если нужно перехватывать будущие вызовы, возвращаем прокси в after.
+
+А если нужно вызвать метод уже *через прокси*, когда контекст готов? Одного `@PostConstruct` не хватит — этот случай разбираем в [статье про `ContextRefreshedEvent` и `@PostInitialize`](Трёхфазный%20конструктор%20—%20ContextRefreshedEvent%20и%20@PostInitialize.md).
 
 > [!QUESTION]- Проверь себя: вопросы с собеседований, которые закрывает статья
 > - Как устроена цепочка `BeanPostProcessor` и что значит вернуть `null`?

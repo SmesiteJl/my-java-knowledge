@@ -4,7 +4,7 @@
 
 Бин — объект, которым управляет Spring. Например, [в XML можно объявить `terminatorQuoter`](XML-конфигурация,%20BeanDefinition%20и%20ClassPathXmlApplicationContext.md): указать класс и значение свойства `message`. Пока Spring прочитал только декларацию, у нас есть `BeanDefinition`, но объекта ещё нет.
 
-Когда бин нужен, `BeanFactory` создаёт экземпляр по этому описанию. В обычном случае она вызывает конструктор, заполняет свойства, прогоняет объект через обработчики до и после инициализации и отдаёт результат. В [исходнике Spring](https://github.com/spring-projects/spring-framework/blob/v6.2.11/spring-beans/src/main/java/org/springframework/beans/factory/support/AbstractAutowireCapableBeanFactory.java#L606-L607) это хорошо видно по двум вызовам подряд: `populateBean()`, затем `initializeBean()`.
+Когда фабрике нужно создать бин, она берёт этот рецепт. Обычно сначала вызывает конструктор, затем заполняет свойства и запускает инициализацию с обработчиками до и после неё. В [исходнике Spring](https://github.com/spring-projects/spring-framework/blob/v6.2.11/spring-beans/src/main/java/org/springframework/beans/factory/support/AbstractAutowireCapableBeanFactory.java#L606-L607) последние два шага хорошо видно: `populateBean()`, затем `initializeBean()`.
 
 В [`initializeBean()`](https://github.com/spring-projects/spring-framework/blob/v6.2.11/spring-beans/src/main/java/org/springframework/beans/factory/support/AbstractAutowireCapableBeanFactory.java#L1813-L1834) идут `postProcessBeforeInitialization()`, вызов init-методов фабрикой и `postProcessAfterInitialization()`. Например, обработчик может выполнить дополнительную настройку перед `init()`, а после него вернуть прокси вместо исходного объекта. Это обычный путь, а не обещание, что прокси всегда появляется только здесь: подробности — в [статье про `BeanPostProcessor`](BeanPostProcessor%20—%20свои%20аннотации%20и%20обработка%20бинов.md).
 
@@ -30,7 +30,7 @@
 
 ## Проверяем порядок на том же XML
 
-Учебное продолжение [примера с `TerminatorQuoter`](XML-конфигурация,%20BeanDefinition%20и%20ClassPathXmlApplicationContext.md): используем те же Java 21, Spring 6.2.11 и три файла. В `TerminatorQuoter.java` внутри класса добавим конструктор и два метода. Сеттер и `sayQuote()` оставим как есть.
+Возьмём те же три файла из [примера с `TerminatorQuoter`](XML-конфигурация,%20BeanDefinition%20и%20ClassPathXmlApplicationContext.md) и оставим Java 21 и Spring 6.2.11. Добавим в `TerminatorQuoter` конструктор и два метода: посмотрим, кто первым увидит значение `message`. Сеттер и `sayQuote()` не трогаем.
 
 ```java
 public TerminatorQuoter() {
@@ -59,7 +59,7 @@ public void cleanup() {
 </bean>
 ```
 
-В `Main.java` заменим тело `main()`:
+В `Main.java` заменим тело `main()`. Перед запуском добавим через IDE импорты `ClassPathXmlApplicationContext` из `org.springframework.context.support` и `TerminatorQuoter` из `quoters`.
 
 ```java
 System.out.println("open");
@@ -90,7 +90,7 @@ false
 cleanup: singleton
 ```
 
-До `ready` фабрика уже создала синглтон. Конструкторы ещё не видят свойство, а `init()` видит его у каждого экземпляра. При закрытии контекста `cleanup()` автоматически отработал только для синглтона из этого примера.
+Синглтон уже создан к моменту, когда мы печатаем `ready`. За ним обращаемся дважды и получаем тот же объект (`true`). А вот два запроса прототипа дают два разных объекта (`false`). Во всех трёх случаях конструктор печатает `null`, а `init()` уже видит значение из XML. Когда закрываем контекст, `cleanup()` срабатывает только у синглтона.
 
 > [!QUESTION]- Проверь себя
 > - Как `BeanFactory` использует `BeanDefinition` и где хранит синглтоны?

@@ -1,6 +1,6 @@
 # Трёхфазный конструктор: ContextRefreshedEvent и @PostInitialize
 
-В [«Spring-потрошителе»](https://www.youtube.com/watch?v=BmBr5diz8WA&t=2935s) внезапно начинаются события. До этого мы настраивали отдельный бин: создали `TerminatorQuoter`, положили число в поле с [`@InjectRandomInt`](BeanPostProcessor%20—%20свои%20аннотации%20и%20обработка%20бинов.md), можем уже пользоваться этим числом в `@PostConstruct`. Зачем же теперь слушать целый контекст? Потому что «бин настроен» и «мы можем вызвать его метод через прокси» — два разных момента.
+В [«Spring-потрошителе»](https://www.youtube.com/watch?v=BmBr5diz8WA&t=2935s) мы уже создали `TerminatorQuoter`, записали число в поле с [`@InjectRandomInt`](BeanPostProcessor%20—%20свои%20аннотации%20и%20обработка%20бинов.md) и можем пользоваться им в `@PostConstruct`. А потом в докладе вдруг появляются события. Зачем слушать весь контекст, если наш бин уже настроен? Потому что вызвать метод на самом бине и вызвать его через прокси — разные вещи.
 
 ## Откуда взялись события
 
@@ -8,7 +8,7 @@
 
 > *События в Spring есть по умолчанию? Как так, я же не строю приложение на событиях?*
 
-Да, у `ApplicationContext` из коробки есть [механизм событий](https://docs.spring.io/spring-framework/reference/core/beans/context-introduction.html#context-functionality-events). И свои события тоже можно отправлять через `ApplicationEventPublisher.publishEvent()`. Это уведомления внутри приложения, по умолчанию синхронные: слушатель выполняется в потоке, который публикует событие. Если в слушателе мы заняты пять секунд, эти пять секунд ждёт и публикующий код. Само по себе это не делает приложение событийно-ориентированным (EDA) и не даёт ни брокера, ни сохранения событий.
+Да, у `ApplicationContext` из коробки есть [события](https://docs.spring.io/spring-framework/reference/core/beans/context-introduction.html#context-functionality-events). Свои можем отправлять через `ApplicationEventPublisher.publishEvent()`. По умолчанию слушатель работает в том же потоке: если он занят пять секунд, вызов `publishEvent()` тоже ждёт эти пять секунд. Это уведомления внутри приложения: ни брокера, ни хранения событий, ни EDA из коробки.
 
 | Событие | Когда его публикует контекст |
 |---|---|
@@ -17,9 +17,9 @@
 | `ContextStoppedEvent` | После явного `stop()`: сигнал остановки для `Lifecycle`-бинов. Контекст не уничтожен, его можно снова запустить. |
 | `ContextClosedEvent` | При закрытии (`close()` или через зарегистрированный shutdown hook), до уничтожения управляемых singleton-бинов. |
 
-В [докладе на 49:17](https://www.youtube.com/watch?v=BmBr5diz8WA&t=2957s) прозвучало, что `ContextStartedEvent` означает начало построения контекста. Здесь оговорка: `start()` вызывают на уже инициализированном контексте. С обычным запуском, когда контекст только создаётся и проходит `refresh()`, связано событие `ContextRefreshedEvent`.
+На [49:17 в докладе](https://www.youtube.com/watch?v=BmBr5diz8WA&t=2957s) `ContextStartedEvent` называют началом построения контекста. Тут легко перепутать: `start()` вызываем на уже собранном контексте, а при обычном запуске в конце `refresh()` получаем `ContextRefreshedEvent`.
 
-На создание **каждого** бина штатного события контекста нет. Для работы с отдельным бином во время создания у Spring есть колбэки [жизненного цикла](Жизненный%20цикл%20бина%20и%20scope.md), в том числе `BeanPostProcessor`. А вот чтобы дождаться, пока контекст инициализирует обычные singleton-бины, нам подходит `ContextRefreshedEvent`. Регистрируем слушатель как бин, реализуем `ApplicationListener<ContextRefreshedEvent>` — Spring отфильтрует другие события, а в `onApplicationEvent(ContextRefreshedEvent event)` не понадобится `instanceof`.
+На создание **каждого** бина события нет: для этого у Spring есть колбэки [жизненного цикла](Жизненный%20цикл%20бина%20и%20scope.md), в том числе `BeanPostProcessor`. А вот если ждём, пока контекст соберёт обычные singleton-бины, нам подходит `ContextRefreshedEvent`. Регистрируем бин с `ApplicationListener<ContextRefreshedEvent>` — остальные события Spring отсеет сам, и в `onApplicationEvent(ContextRefreshedEvent event)` не понадобится `instanceof`.
 
 ## Зачем понадобилась третья фаза
 
@@ -29,37 +29,29 @@
 
 У Борисова в коде метка называется [`@PostProxy`](https://www.youtube.com/watch?v=BmBr5diz8WA&t=3172s), а на [итоговом слайде](https://habr.com/ru/companies/jugru/articles/893638/) — `@AfterProxy`. `@PostInitialize` в названии темы — ещё одно имя для такой же **самописной** метки. Ни одной из этих аннотаций Spring сам не обрабатывает. Третью фазу добавляет наш слушатель: по `ContextRefreshedEvent` он находит помеченный метод и вызывает его на объекте, который выдаёт контейнер.
 
-На [итоге доклада](https://www.youtube.com/watch?v=BmBr5diz8WA&t=3822s) помогают запомнить, кто за что отвечает, три персонажа. На схеме заодно видно, где между второй и третьей фазами появляется прокси, если он нужен:
+В [конце доклада](https://www.youtube.com/watch?v=BmBr5diz8WA&t=3822s) у каждой фазы свой персонаж. По ним удобно запомнить, где появляется прокси, если он нужен:
 
 ![Дюк обозначает конструктор Java, муравей — BeanPostProcessor и PostConstruct, Чебурашка — слушателя ContextRefreshedEvent. Прокси появляется между второй и третьей фазами.](img/spring-three-phases.svg)
 
-Это схема для обычного singleton-бина, который Spring создаёт при `refresh()`. [Документация Spring](https://docs.spring.io/spring-framework/reference/core/beans/factory-nature.html#beans-factory-lifecycle-initializingbean) советует в `@PostConstruct` проверять внедрённые настройки или собирать локальные структуры данных. Вызов через прокси — отдельная задача. Третья фаза не обещает, что к этому моменту уже созданы все ленивые бины или экземпляры `prototype`.
+На схеме обычный singleton, который Spring создаёт при `refresh()`. В `@PostConstruct`, как [советует дока](https://docs.spring.io/spring-framework/reference/core/beans/factory-nature.html#beans-factory-lifecycle-initializingbean), можем проверить внедрённые настройки или собрать локальные структуры данных. Вызов через прокси оставим третьей фазе. Но к ней не обязаны появиться все ленивые бины и экземпляры `prototype`.
 
 ## Сначала читаем метаданные, потом берём бин
 
-В [докладной реализации](https://www.youtube.com/watch?v=BmBr5diz8WA&t=3326s) слушатель берёт имена локальных определений бинов и читает их через `ConfigurableListableBeanFactory.getBeanDefinition()`. Почему не пройтись по `getBean(name).getClass()`? Во-первых, `getBean()` ради проверки метки может создать ленивый бин. Во-вторых, `getClass()` у выданного объекта может вернуть класс JDK-прокси, а метку мы поставили на метод **реализации**.
+В [докладе](https://www.youtube.com/watch?v=BmBr5diz8WA&t=3326s) слушатель перебирает имена локальных определений бинов и читает их через `ConfigurableListableBeanFactory.getBeanDefinition()`. Почему бы сразу не взять `getBean(name).getClass()`? Так мы можем создать ленивый бин только ради проверки метки. А если Spring отдаст JDK-прокси, `getClass()` покажет класс прокси, хотя метку мы поставили на метод **реализации**.
 
 Для простого XML-описания с `class` можно взять `getBeanClassName()`, разрешить класс и искать метку на его методах. Но [`getBeanClassName()`](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/beans/factory/config/BeanDefinition.html#getBeanClassName()) не обещает тип экземпляра: для определения из `@Bean` там может быть имя класса фабрики либо `null`. И даже объявленный тип результата `@Bean` может быть интерфейсом без метки на методе. Поэтому для такого приёма нужно либо ограничить допустимые определения бинов, либо явно регистрировать методы, которые мы хотим запустить. Вызывать `getBean()` для всех подряд — не решение проблемы с метаданными.
 
-Только когда нашли метку, запрашиваем конкретный бин и подбираем метод для вызова на нём. В докладе слушатель вызывает публичный метод без аргументов, поэтому при своей реализации стоит явно ограничить метку такими методами. [Про `lazy` в докладе есть оговорка](https://www.youtube.com/watch?v=BmBr5diz8WA&t=3839s): если помеченный бин нужно вызвать сейчас, мы тем самым готовы создать его сейчас. Фильтр по метаданным позволяет не создавать остальные бины при переборе. Если ленивость принципиальна, такой бин в запуск по `refresh()` не включаем.
+Нашли метку — теперь берём сам бин и ищем метод, который можно на нём вызвать. Как в докладе, ограничим метку публичными методами без аргументов. [Подвох с `lazy`](https://www.youtube.com/watch?v=BmBr5diz8WA&t=3839s): если хотим вызвать метод сейчас, бин тоже придётся создать сейчас. Остальные бины мы не трогаем, потому что сначала смотрим метаданные. Если бин должен остаться ленивым, не включаем его в запуск по `refresh()`.
 
-Здесь Борисов [отдельно оговаривает, зачем внедряет фабрику](https://www.youtube.com/watch?v=BmBr5diz8WA&t=3437s). Мы пишем расширение контейнера, а читать его метаданные и есть работа этого слушателя. В `TerminatorQuoter` или в сервисе, который греет кэш, фабрика была бы лишней: нужные бизнес-зависимости лучше передать явно через конструктор, а не прятать их за `getBean()`.
+Зачем слушателю [внедрять фабрику](https://www.youtube.com/watch?v=BmBr5diz8WA&t=3437s)? Мы расширяем сам контейнер, и читать метаданные — работа слушателя. А вот `TerminatorQuoter` или сервису, который греет кэш, фабрика ни к чему. Их зависимости лучше передать через конструктор, а не прятать за `getBean()`.
 
 ## Найти метод и вызвать метод: две разные операции
 
 Почему нельзя взять [`Method`](../../03%20Java%20Core/Аннотации%20и%20рефлексия/Класс%20Method%20и%20вызов%20методов%20через%20рефлексию.md) от `TerminatorQuoter` и просто сделать `invoke(proxy)`? Дело не в том, что мы нашли класс через `Class.forName()`. По [контракту `Method.invoke()`](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/reflect/Method.html#invoke(java.lang.Object,java.lang.Object...) объект для нестатического метода должен быть экземпляром класса или интерфейса, объявившего метод. JDK-прокси реализует `Quoter`, но не наследуется от `TerminatorQuoter`. Совпадение имени и параметров этого не меняет.
 
-Ниже учебный пример, не код из доклада. `@PostInitialize` здесь — наша метка на реализации, а вывод из `InvocationHandler` заменяет настоящее профилирование. Сохраняем блок как `Main.java` в UTF-8, запускаем `java Main.java` на JDK 25 (достаточно JDK 11+ в UTF-8-окружении). Spring, база и дополнительные зависимости не нужны.
+Проверим на примере без Spring: `@PostInitialize` ставим на реализацию, а вместо профилирования печатаем сообщение из `InvocationHandler`. Сохраняем код как `Main.java` в UTF-8, добавляем пропущенные импорты из JDK через подсказки IDE (`Method` и `Proxy` — из `java.lang.reflect`) и запускаем `java Main.java` на JDK 25. Подойдёт и JDK 11+ в UTF-8-окружении. База и дополнительные зависимости не нужны.
 
 ```java
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-
 public class Main {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.METHOD)
@@ -118,7 +110,7 @@ public class Main {
 
 Если цель — наполнить БД на старте, не обязательно учить Spring новой аннотации. Делаем бин-слушатель с `@EventListener(ContextRefreshedEvent.class)` и внедряем ему отдельный сервис. Слушатель принимает событие и вызывает, например, `referenceDataService.ensureDefaults()`. На публичном методе сервиса стоит `@Transactional`, в контексте настроено управление транзакциями, а если используется JDK-прокси, метод объявлен в его интерфейсе. Получается внешний вызов через прокси. Самому слушателю для этого прокси не нужен: транзакция открывается на входе в сервис, если её уже нет и используется стандартный `REQUIRED`.
 
-У `ContextRefreshedEvent` нет гарантии «один раз на приложение». Некоторые контексты поддерживают повторный `refresh()`, а в [иерархии контекстов](https://github.com/spring-projects/spring-framework/blob/v7.0.1/spring-context/src/main/java/org/springframework/context/support/AbstractApplicationContext.java#L448) событие дочернего контекста доходит до родителя. Если нужна реакция только на свой контекст, сравниваем `event.getApplicationContext()` с ожидаемым контекстом по ссылке. И сами операции делаем идемпотентными: например, повторное заполнение справочника не должно добавлять дубликаты. Это отдельная гарантия кода и БД, а не свойство события.
+Засада: `ContextRefreshedEvent` может прийти больше одного раза. Некоторые контексты поддерживают повторный `refresh()`, а в [иерархии контекстов](https://github.com/spring-projects/spring-framework/blob/v7.0.1/spring-context/src/main/java/org/springframework/context/support/AbstractApplicationContext.java#L448) событие дочернего контекста доходит до родителя. Если ждём событие только от своего контекста, сравниваем `event.getApplicationContext()` с ним по ссылке. Само заполнение справочника делаем идемпотентным: при повторном вызове не должно быть дублей. За это отвечают наш код и БД, а не событие.
 
 > [!QUESTION]- Проверь себя: вопросы с собеседований, которые закрывает статья
 > - Как `ContextRefreshedEvent` связан с `refresh()` и чем отличается от `ContextStartedEvent`?
