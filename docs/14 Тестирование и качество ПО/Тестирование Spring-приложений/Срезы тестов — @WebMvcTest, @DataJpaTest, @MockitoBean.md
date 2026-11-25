@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Срезы тестов: @WebMvcTest, @DataJpaTest, @MockitoBean
 
 > [!NOTE] Тема в работе

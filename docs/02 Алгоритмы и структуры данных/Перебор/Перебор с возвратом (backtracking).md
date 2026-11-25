@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Перебор с возвратом (backtracking)
 
 > [!NOTE] Тема в работе

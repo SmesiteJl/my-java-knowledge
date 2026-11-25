@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # java.time: LocalDate, LocalDateTime, ChronoUnit
 
 > [!NOTE] Тема в работе

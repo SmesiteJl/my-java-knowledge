@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Agile, Scrum и Kanban
 
 > [!NOTE] Тема в работе

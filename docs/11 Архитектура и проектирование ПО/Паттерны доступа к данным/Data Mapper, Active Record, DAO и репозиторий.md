@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Data Mapper, Active Record, DAO и репозиторий
 
 > [!NOTE] Тема в работе

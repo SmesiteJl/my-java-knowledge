@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Хеш-таблицы: HashSet и HashMap
 
 > [!NOTE] Тема в работе

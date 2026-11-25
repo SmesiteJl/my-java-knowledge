@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Блокировки в PostgreSQL
 
 > [!NOTE] Тема в работе

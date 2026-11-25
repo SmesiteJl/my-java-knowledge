@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # OAuth, OpenID, SSO, SAML
 
 > [!NOTE] Тема в работе

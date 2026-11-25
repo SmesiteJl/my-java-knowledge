@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Stream API
 
 > [!NOTE] Тема в работе

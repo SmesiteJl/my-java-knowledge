@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Устройство Spring WebMVC и DispatcherServlet
 
 > [!NOTE] Тема в работе

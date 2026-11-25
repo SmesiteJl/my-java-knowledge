@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # OWASP Top Ten
 
 > [!NOTE] Тема в работе

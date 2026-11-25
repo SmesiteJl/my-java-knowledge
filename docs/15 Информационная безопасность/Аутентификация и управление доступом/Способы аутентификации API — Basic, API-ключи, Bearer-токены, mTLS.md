@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Способы аутентификации API: Basic, API-ключи, Bearer-токены, mTLS
 
 > [!NOTE] Тема в работе

@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # JPQL и Criteria API
 
 > [!NOTE] Тема в работе

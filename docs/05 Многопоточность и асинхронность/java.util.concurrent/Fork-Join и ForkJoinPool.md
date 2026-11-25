@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Fork/Join и ForkJoinPool
 
 > [!NOTE] Тема в работе

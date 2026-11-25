@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # SOLID
 
 > [!NOTE] Тема в работе

@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Maven
 
 > [!NOTE] Тема в работе

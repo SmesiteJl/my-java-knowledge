@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Цепочка фильтров Spring Security
 
 > [!NOTE] Тема в работе

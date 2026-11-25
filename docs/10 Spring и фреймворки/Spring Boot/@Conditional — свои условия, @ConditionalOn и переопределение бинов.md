@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # @Conditional: свои условия, @ConditionalOn* и переопределение бинов
 
 > [!NOTE] Тема в работе

@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Prototype внутри singleton и destroy-методы прототипов
 
 > [!NOTE] Тема в работе

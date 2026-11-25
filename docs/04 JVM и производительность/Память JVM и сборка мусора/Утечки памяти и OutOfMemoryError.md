@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Утечки памяти и OutOfMemoryError
 
 > [!NOTE] Тема в работе

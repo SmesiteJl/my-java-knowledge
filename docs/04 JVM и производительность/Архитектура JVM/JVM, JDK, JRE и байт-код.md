@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # JVM, JDK, JRE и байт-код
 
 > [!NOTE] Тема в работе

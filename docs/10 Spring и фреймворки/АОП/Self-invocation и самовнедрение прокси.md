@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Self-invocation и самовнедрение прокси
 
 > [!NOTE] Тема в работе

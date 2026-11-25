@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Загрузка классов и ClassLoader
 
 > [!NOTE] Тема в работе

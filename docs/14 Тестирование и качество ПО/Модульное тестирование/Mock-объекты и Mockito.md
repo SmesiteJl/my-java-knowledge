@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Mock-объекты и Mockito
 
 > [!NOTE] Тема в работе

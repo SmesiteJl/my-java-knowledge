@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # CQRS
 
 > [!NOTE] Тема в работе

@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # @Around-аспекты: по аннотации и по execution
 
 > [!NOTE] Тема в работе

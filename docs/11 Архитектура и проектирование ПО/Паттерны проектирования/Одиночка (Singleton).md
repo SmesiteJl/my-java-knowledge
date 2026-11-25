@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Одиночка (Singleton)
 
 > [!NOTE] Тема в работе

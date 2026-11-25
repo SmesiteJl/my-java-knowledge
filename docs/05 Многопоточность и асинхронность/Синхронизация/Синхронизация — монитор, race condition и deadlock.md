@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Синхронизация: монитор, race condition и deadlock
 
 > [!NOTE] Тема в работе

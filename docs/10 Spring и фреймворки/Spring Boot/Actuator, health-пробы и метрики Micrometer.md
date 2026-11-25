@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Actuator, health-пробы и метрики Micrometer
 
 > [!NOTE] Тема в работе

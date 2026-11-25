@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Интеграционные тесты с Testcontainers
 
 > [!NOTE] Тема в работе

@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # RabbitMQ: модель AMQP и сравнение с Kafka
 
 > [!NOTE] Тема в работе

@@ -7,12 +7,20 @@
   display: none;
 }
 
-.md-typeset .footnote::before {
-  content: "Сноски";
+.md-typeset .footnote:lang(ru)::before,
+.md-typeset .footnote:lang(en)::before {
   display: block;
   margin: 1.6em 0 0.64em;
   font-size: 1.7578em; /* the h2 size, counted from the smaller footnote font */
   font-weight: 700;
   line-height: 1.4;
   letter-spacing: -0.025em;
+}
+
+.md-typeset .footnote:lang(ru)::before {
+  content: "Сноски";
+}
+
+.md-typeset .footnote:lang(en)::before {
+  content: "Footnotes";
 }

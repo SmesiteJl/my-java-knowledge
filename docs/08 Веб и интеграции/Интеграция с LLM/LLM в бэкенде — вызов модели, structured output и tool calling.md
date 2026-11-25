@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # LLM в бэкенде: вызов модели, structured output и tool calling
 
 > [!NOTE] Тема в работе

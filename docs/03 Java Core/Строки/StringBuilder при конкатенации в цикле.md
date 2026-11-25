@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # StringBuilder при конкатенации в цикле
 
 > [!NOTE] Тема в работе

@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # CAP-теорема и PACELC
 
 > [!NOTE] Тема в работе

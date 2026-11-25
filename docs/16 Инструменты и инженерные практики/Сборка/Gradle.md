@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Gradle
 
 > [!NOTE] Тема в работе

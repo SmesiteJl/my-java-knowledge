@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # @Transactional в Spring: прокси, откат, propagation
 
 > [!NOTE] Тема в работе

@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Spring Boot 3: изменения и миграция с Boot 2
 
 > [!NOTE] Тема в работе

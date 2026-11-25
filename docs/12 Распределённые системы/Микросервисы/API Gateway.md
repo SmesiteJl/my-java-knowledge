@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # API Gateway
 
 > [!NOTE] Тема в работе

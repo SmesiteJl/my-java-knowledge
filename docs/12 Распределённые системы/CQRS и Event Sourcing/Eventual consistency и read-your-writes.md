@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Eventual consistency и read-your-writes
 
 > [!NOTE] Тема в работе

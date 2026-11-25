@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Прототип (Prototype)
 
 > [!NOTE] Тема в работе

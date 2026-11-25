@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Подзапросы, EXISTS и CTE
 
 > [!NOTE] Тема в работе

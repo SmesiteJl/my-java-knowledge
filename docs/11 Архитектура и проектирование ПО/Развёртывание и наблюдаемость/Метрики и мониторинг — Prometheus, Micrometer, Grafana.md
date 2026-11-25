@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Метрики и мониторинг: Prometheus, Micrometer, Grafana
 
 > [!NOTE] Тема в работе

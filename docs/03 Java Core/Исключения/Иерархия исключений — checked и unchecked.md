@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Иерархия исключений: checked и unchecked
 
 > [!NOTE] Тема в работе

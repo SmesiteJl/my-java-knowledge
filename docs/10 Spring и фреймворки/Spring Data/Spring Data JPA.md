@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Spring Data JPA
 
 > [!NOTE] Тема в работе

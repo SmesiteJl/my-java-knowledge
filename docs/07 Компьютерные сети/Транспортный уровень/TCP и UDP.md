@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # TCP и UDP
 
 > [!NOTE] Тема в работе

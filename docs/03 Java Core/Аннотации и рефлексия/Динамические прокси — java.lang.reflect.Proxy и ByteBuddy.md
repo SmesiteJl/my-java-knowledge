@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Динамические прокси: java.lang.reflect.Proxy и ByteBuddy
 
 > [!NOTE] Тема в работе

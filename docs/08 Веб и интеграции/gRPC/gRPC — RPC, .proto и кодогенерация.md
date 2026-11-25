@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # gRPC: RPC, .proto и кодогенерация
 
 > [!NOTE] Тема в работе

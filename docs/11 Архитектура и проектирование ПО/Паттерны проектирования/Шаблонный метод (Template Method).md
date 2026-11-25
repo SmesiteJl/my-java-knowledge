@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Шаблонный метод (Template Method)
 
 > [!NOTE] Тема в работе

@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Persistence Context, EntityManager и состояния сущности
 
 > [!NOTE] Тема в работе

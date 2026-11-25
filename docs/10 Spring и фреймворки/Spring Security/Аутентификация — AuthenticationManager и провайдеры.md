@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Аутентификация: AuthenticationManager и провайдеры
 
 > [!NOTE] Тема в работе

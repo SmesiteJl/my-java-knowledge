@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # @SpringBootApplication и @EnableAutoConfiguration
 
 > [!NOTE] Тема в работе

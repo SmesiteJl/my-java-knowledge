@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # @ConfigurationProperties и метаданные для автокомплита
 
 > [!NOTE] Тема в работе

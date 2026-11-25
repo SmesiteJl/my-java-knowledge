@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Servlet Filter и HandlerInterceptor
 
 > [!NOTE] Тема в работе

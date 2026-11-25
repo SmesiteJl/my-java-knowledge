@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Structured concurrency и Scoped Values
 
 > [!NOTE] Тема в работе

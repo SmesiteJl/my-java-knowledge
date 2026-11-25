@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Map: LinkedHashMap, TreeMap, EnumMap и IdentityHashMap
 
 > [!NOTE] Тема в работе

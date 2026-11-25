@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Как не поднимать лишнее в @SpringBootTest
 
 > [!NOTE] Тема в работе

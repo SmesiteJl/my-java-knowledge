@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Redis
 
 > [!NOTE] Тема в работе

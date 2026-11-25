@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Изоляция процессов: namespaces, cgroups, seccomp, capabilities
 
 > [!NOTE] Тема в работе

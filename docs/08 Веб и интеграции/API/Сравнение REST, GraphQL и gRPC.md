@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Сравнение REST, GraphQL и gRPC
 
 > [!NOTE] Тема в работе

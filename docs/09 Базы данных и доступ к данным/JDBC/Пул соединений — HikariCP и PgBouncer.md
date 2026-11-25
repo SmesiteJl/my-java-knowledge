@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Пул соединений: HikariCP и PgBouncer
 
 > [!NOTE] Тема в работе

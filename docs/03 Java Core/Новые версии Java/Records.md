@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Records
 
 > [!NOTE] Тема в работе

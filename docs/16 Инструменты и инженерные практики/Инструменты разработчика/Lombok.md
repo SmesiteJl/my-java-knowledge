@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Lombok
 
 > [!NOTE] Тема в работе

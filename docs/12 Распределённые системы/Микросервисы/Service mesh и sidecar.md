@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Service mesh и sidecar
 
 > [!NOTE] Тема в работе

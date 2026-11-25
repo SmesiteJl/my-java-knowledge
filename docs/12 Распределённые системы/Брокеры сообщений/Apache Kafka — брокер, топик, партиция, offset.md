@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Apache Kafka: брокер, топик, партиция, offset
 
 > [!NOTE] Тема в работе

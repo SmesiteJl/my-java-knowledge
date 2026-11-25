@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # ThreadLocal
 
 > [!NOTE] Тема в работе

@@ -1,0 +1,14 @@
+{
+  "ru": {
+    "name": "Русский",
+    "selector": "Язык",
+    "unavailable": "нет перевода"
+  },
+  "en": {
+    "name": "English",
+    "selector": "Language",
+    "unavailable": "not translated",
+    "home": "Home",
+    "description": "A knowledge base for Java backend development and technical interviews."
+  }
+}

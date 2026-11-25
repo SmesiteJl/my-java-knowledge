@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # CORS и same-origin policy
 
 > [!NOTE] Тема в работе

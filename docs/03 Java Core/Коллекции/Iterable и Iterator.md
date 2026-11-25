@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Iterable и Iterator
 
 > [!NOTE] Тема в работе

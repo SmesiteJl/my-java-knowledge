@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Модель Producer-Consumer: wait, notify, notifyAll
 
 > [!NOTE] Тема в работе

@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Comparable, Comparator и PriorityQueue
 
 > [!NOTE] Тема в работе

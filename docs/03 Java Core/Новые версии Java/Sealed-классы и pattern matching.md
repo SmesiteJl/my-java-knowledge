@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Sealed-классы и pattern matching
 
 > [!NOTE] Тема в работе

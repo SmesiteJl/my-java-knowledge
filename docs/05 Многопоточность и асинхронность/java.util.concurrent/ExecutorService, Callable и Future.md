@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # ExecutorService, Callable и Future
 
 > [!NOTE] Тема в работе

@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Цепочка обязанностей (Chain of Responsibility)
 
 > [!NOTE] Тема в работе

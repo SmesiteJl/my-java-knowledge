@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Set: HashSet, LinkedHashSet и TreeSet
 
 > [!NOTE] Тема в работе

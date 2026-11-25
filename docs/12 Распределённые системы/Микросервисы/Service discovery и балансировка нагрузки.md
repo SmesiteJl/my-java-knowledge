@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Service discovery и балансировка нагрузки
 
 > [!NOTE] Тема в работе

@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Docker Compose
 
 > [!NOTE] Тема в работе

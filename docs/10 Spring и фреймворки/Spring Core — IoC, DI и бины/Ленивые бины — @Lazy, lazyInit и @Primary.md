@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Ленивые бины: @Lazy, lazyInit и @Primary
 
 > [!NOTE] Тема в работе

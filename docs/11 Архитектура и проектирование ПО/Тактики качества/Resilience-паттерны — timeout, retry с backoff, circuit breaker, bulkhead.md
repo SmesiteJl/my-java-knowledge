@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Resilience-паттерны: timeout, retry с backoff, circuit breaker, bulkhead
 
 > [!NOTE] Тема в работе

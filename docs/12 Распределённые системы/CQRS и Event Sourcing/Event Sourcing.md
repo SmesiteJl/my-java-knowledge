@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Event Sourcing
 
 > [!NOTE] Тема в работе

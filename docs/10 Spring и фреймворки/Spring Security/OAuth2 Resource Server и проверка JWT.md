@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # OAuth2 Resource Server и проверка JWT
 
 > [!NOTE] Тема в работе

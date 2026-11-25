@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # JMX: MBean и MBeanServer
 
 > [!NOTE] Тема в работе

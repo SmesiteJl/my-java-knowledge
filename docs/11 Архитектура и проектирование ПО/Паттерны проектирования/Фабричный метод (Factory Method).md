@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Фабричный метод (Factory Method)
 
 > [!NOTE] Тема в работе

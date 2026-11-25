@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Kafka Consumer: consumer group, offset, коммиты
 
 > [!NOTE] Тема в работе

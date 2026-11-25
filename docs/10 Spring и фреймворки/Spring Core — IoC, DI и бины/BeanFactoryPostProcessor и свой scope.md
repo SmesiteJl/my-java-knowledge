@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # BeanFactoryPostProcessor и свой scope
 
 > [!NOTE] Тема в работе

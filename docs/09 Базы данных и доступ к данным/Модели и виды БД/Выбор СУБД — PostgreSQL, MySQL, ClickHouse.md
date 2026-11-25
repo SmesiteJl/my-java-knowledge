@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Выбор СУБД: PostgreSQL, MySQL, ClickHouse
 
 > [!NOTE] Тема в работе

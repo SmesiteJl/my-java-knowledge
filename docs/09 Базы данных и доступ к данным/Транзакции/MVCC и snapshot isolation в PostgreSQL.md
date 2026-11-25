@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # MVCC и snapshot isolation в PostgreSQL
 
 > [!NOTE] Тема в работе

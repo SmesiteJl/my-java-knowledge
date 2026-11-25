@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Lost update и способы защиты
 
 > [!NOTE] Тема в работе

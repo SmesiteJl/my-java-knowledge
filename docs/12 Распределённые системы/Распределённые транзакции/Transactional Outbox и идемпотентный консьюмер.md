@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Transactional Outbox и идемпотентный консьюмер
 
 > [!NOTE] Тема в работе

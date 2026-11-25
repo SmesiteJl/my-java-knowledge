@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Слабые ссылки: WeakReference, WeakHashMap, кэш Guava
 
 > [!NOTE] Тема в работе

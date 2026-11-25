@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # HTTP-клиенты в Spring: RestClient, WebClient и HTTP Service Clients
 
 > [!NOTE] Тема в работе

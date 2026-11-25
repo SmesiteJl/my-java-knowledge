@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # REST-контроллер в Spring WebMVC
 
 > [!NOTE] Тема в работе

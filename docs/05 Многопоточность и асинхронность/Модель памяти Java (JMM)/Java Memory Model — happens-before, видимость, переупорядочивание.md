@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Java Memory Model: happens-before, видимость, переупорядочивание
 
 > [!NOTE] Тема в работе

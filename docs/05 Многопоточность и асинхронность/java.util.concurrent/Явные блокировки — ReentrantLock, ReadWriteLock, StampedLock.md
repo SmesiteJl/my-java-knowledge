@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Явные блокировки: ReentrantLock, ReadWriteLock, StampedLock
 
 > [!NOTE] Тема в работе

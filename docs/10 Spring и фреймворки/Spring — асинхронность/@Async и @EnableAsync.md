@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # @Async и @EnableAsync
 
 > [!NOTE] Тема в работе

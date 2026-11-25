@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # CompletableFuture вместо блокирующих вызовов
 
 > [!NOTE] Тема в работе

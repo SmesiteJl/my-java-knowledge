@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Свой IoC-контейнер с нуля: ObjectFactory, ApplicationContext, конфигураторы
 
 > [!NOTE] Тема в работе

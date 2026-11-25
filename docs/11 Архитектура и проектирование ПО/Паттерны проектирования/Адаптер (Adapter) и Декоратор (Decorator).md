@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Адаптер (Adapter) и Декоратор (Decorator)
 
 > [!NOTE] Тема в работе

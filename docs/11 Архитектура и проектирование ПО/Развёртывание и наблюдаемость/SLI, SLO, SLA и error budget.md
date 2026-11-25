@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # SLI, SLO, SLA и error budget
 
 > [!NOTE] Тема в работе

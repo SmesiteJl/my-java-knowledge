@@ -21,10 +21,10 @@
 Integer a = 127, b = 127;
 System.out.println(a == b);      // true
 Integer c = 128, d = 128;
-System.out.println(c == d);      // false
+System.out.println(c == d);      // false при стандартных настройках HotSpot
 ```
 
-Почему так? [Автоупаковка](../Синтаксис%20и%20типы/Классы-обёртки%20и%20автоупаковка.md) вызывает `Integer.valueOf()`, а он отдаёт объекты из кэша для чисел от `-128` до `127`. Поэтому `127` — это один и тот же объект, а `128` — два разных. Со строками похоже: литералы `"java"` лежат в [*пуле строк*](../Строки/Класс%20String%20—%20создание,%20сравнение%20и%20пул%20строк.md) и указывают на один объект, а `new String("java")` — всегда новый.
+Почему так? При [автоупаковке](../Синтаксис%20и%20типы/Классы-обёртки%20и%20автоупаковка.md) компилятор вызывает [`Integer.valueOf()`](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Integer.html#valueOf(int)). Метод всегда кэширует числа от `-128` до `127`, но может кэшировать и другие. Поэтому у `127` ссылка одна, а для `128` результат `false` зависит от границ кэша. Со строками похоже: литералы `"java"` лежат в [*пуле строк*](../Строки/Класс%20String%20—%20создание,%20сравнение%20и%20пул%20строк.md) и указывают на один объект, а `new String("java")` — всегда новый.
 
 **Мораль простая:** объекты сравниваем через `equals()`, а `==` оставляем примитивам и проверке «это тот же самый объект?».
 
@@ -485,6 +485,7 @@ new TreeSet<>(List.of(x, y)).size();   // 1
 
 * [Java Kabala, «Java с нуля. equals и hashCode»](https://www.youtube.com/watch?v=N2z_1EGSN4U) — получасовой урок: свойства контракта, переопределение и наследование на простых примерах
 * [Документация `java.lang.Object` (Java 25)](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html) — оригинал контрактов `equals` и `hashCode`
+* [Документация `Integer.valueOf()` (Java 25)](https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Integer.html#valueOf(int)) — гарантированный диапазон кэша
 * [hello-algo, глава 6.3 «Алгоритмы хеширования»](https://www.hello-algo.com/ru/chapter_hashing/hash_algorithm/) — как устроены хеш-функции и зачем в них простые числа
 * [Исходник HotSpot: `synchronizer.cpp`](https://github.com/openjdk/jdk/blob/master/src/hotspot/share/runtime/synchronizer.cpp) — функция `get_next_hash()`, все режимы генерации identity hashCode
 * [Исходник HotSpot: `jvm.cpp`, `JVM_IHashCode()`](https://github.com/openjdk/jdk/blob/jdk-25-ga/src/hotspot/share/prims/jvm.cpp#L622) — куда на самом деле ведёт нативный `Object.hashCode()`

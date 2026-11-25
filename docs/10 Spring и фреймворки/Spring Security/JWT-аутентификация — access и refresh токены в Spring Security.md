@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # JWT-аутентификация: access и refresh токены в Spring Security
 
 > [!NOTE] Тема в работе

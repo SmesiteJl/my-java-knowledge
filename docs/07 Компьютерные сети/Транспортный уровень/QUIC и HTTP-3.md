@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # QUIC и HTTP/3
 
 > [!NOTE] Тема в работе

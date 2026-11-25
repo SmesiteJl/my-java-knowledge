@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Сборщики мусора HotSpot: Serial, Parallel, G1, ZGC, Shenandoah
 
 > [!NOTE] Тема в работе

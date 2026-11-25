@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Exactly once в Kafka
 
 > [!NOTE] Тема в работе

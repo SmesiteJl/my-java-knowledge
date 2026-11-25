@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # List: ArrayList и LinkedList
 
 > [!NOTE] Тема в работе

@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Стратегии выкатки: rolling update, blue-green, canary, feature flags
 
 > [!NOTE] Тема в работе

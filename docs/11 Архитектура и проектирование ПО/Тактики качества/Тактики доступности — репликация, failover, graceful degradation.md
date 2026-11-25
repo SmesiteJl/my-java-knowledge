@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Тактики доступности: репликация, failover, graceful degradation
 
 > [!NOTE] Тема в работе

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 132" role="img">
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 10 5 0 10Z" fill="#3d637b"/></marker></defs>
+  <g stroke="#3d637b" stroke-width="2">
+    <rect x="10" y="10" width="190" height="44" rx="9" fill="#eef4fa"/>
+    <rect x="10" y="78" width="190" height="44" rx="9" fill="#eef4fa"/>
+    <rect x="332" y="44" width="178" height="44" rx="9" fill="#d9f1e5"/>
+    <path d="M200 32h42l89 30M200 100h42l89-30" fill="none" marker-end="url(#arrow)"/>
+  </g>
+  <g text-anchor="middle" font-family="ui-monospace, monospace" font-size="16" fill="#153248">
+    <text x="105" y="38">original.skills</text><text x="105" y="106">copy.skills</text><text x="421" y="72">[Java, Kafka]</text>
+  </g>
+</svg>

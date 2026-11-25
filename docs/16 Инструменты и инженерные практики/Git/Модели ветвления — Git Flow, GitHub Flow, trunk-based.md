@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Модели ветвления: Git Flow, GitHub Flow, trunk-based
 
 > [!NOTE] Тема в работе

@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Прокси в Spring: JDK Dynamic Proxy и CGLIB
 
 > [!NOTE] Тема в работе

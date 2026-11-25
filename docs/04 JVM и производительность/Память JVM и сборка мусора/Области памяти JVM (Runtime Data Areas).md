@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Области памяти JVM (Runtime Data Areas)
 
 > [!NOTE] Тема в работе

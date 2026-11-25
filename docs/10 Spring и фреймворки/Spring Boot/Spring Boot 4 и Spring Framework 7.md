@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Spring Boot 4 и Spring Framework 7
 
 > [!NOTE] Тема в работе

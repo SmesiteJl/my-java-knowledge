@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Обработка исключений: try-catch-finally, throw, throws
 
 > [!NOTE] Тема в работе

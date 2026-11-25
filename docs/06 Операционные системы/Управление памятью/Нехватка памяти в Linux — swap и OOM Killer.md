@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Нехватка памяти в Linux: swap и OOM Killer
 
 > [!NOTE] Тема в работе

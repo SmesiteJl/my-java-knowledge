@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # OpenAPI и Swagger
 
 > [!NOTE] Тема в работе

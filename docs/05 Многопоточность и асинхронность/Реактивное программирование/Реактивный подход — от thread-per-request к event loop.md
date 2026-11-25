@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Реактивный подход: от thread-per-request к event loop
 
 > [!NOTE] Тема в работе

@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Write skew и фантомы
 
 > [!NOTE] Тема в работе

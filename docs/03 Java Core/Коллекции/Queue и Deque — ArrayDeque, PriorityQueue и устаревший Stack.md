@@ -1,3 +1,7 @@
+---
+kb_stub: true
+---
+
 # Queue и Deque: ArrayDeque, PriorityQueue и устаревший Stack
 
 > [!NOTE] Тема в работе
